@@ -1,0 +1,126 @@
+Select
+
+
+    הפקודה DISTINCT נועדה לצמצם רשומות כפולות מרשימת התוצאות, 
+         מאפשרת לנו להציג רשימת ערכים ייחודיים בעמודה.
+
+הפסוקית TOP תשמש אותנו כדי לציין את כמות הרשומות שברצוננו לאחזר. היא תשמש אותנו בעיקר במשפטים שתוצאותיהם מחזירים מספר גדול מאוד של רשומות, עובדה שעלולה לפגוע בביצועי התוכניות שלנו.
+
+ALIAS - כינוי.נעשה בו שימוש כאשר נרצה לכנות עמודה או טבלה בשם שונה מזה שבו הן מוגדרות בבסיס הנתונים שלנו.
+
+באמצעות  Offset אנו יכולים לומר לשאילתה מאיזו שורה להתחיל להביא את הנתונים, למשל Offset=10 במקרה שלנו. ולאחר שאנחנו יודעים מהיכן להתחיל, אנו מבקשים את כמות השורות הרצויה, במקרה שלנו: Fetch=3     
+SELECT FirstName + ' ' + LastName 
+FROM Employees 
+ORDER BY FirstName OFFSET 10 ROWS FETCH NEXT 3 ROWS ONLY;
+
+איזו שאילתה תחזיר עמודה אחת, ובה עיר הלקוח (, (City המדינה (Country) 
+וכתובת  ?(Address)
+SELECT City , Country 'Address' from employees
+SELECT City + ' ' + Country + ' ' + Address from employees 
+SELECT City , Country , Address from employees 
+SELECT City + ' ' + Country ",Address" from employees
+תשובה : סעיף B
+
+
+כתבו שאילתה להצגת שם פרטי , שם משפחה , ועיר העובדים , ממוין לפי שם פרטי בסדר יורד.
+תשובה : 
+SELECT FirstName ,LastName , City
+FROM Employees 
+ORDER BY FirstName DESC
+
+
+
+
+
+
+
+הציגו את פרטי העובד הכי מבוגר בחברה.
+תשובה : 
+SELECT *
+FROM Employees 
+where BirthDate <=  (select   min(BirthDate)
+from Employees)				
+
+הציגו מטבלת Employees את שם המשפחה הקטן ביותר מבחינה אלפאבתית
+תשובה : 
+select   min(LastName)
+from Employees
+
+
+הציגו את פרטי העובד הכי צעיר בחברה.
+תשובה : 
+SELECT *
+FROM Employees 
+where BirthDate >=  (select   max(BirthDate)
+from Employees       				
+
+
+הציגו את כל ההזמנות מטבלת ההזמנות. 
+תשובה : 
+SELECT *
+FROM Orders
+
+
+
+הציגו את 5 ההזמנות הראשונות בחברה.
+תשובה : 
+SELECT  top 5 *
+FROM Orders
+
+
+הציגו את 5 ההזמנות השניות בחברה.
+תשובה : 
+SELECT  *
+FROM Orders
+order by OrderID  offset 5 rows fetch next 5 rows only
+
+
+
+
+
+
+הציגו את הערים בהם גרים הלקוחות בצורה חד ערכית.
+תשובה :
+select distinct city
+from Customers
+
+
+הציגו את 20 ההזמנות שאחרי ה- 10 ההזמנות הראשונות.
+תשובה : 
+SELECT  *
+FROM Orders
+order by OrderID  offset 10 rows fetch next 20 rows only
+
+
+Where
+SELECT  top 1 *
+FROM Orders
+where year(OrderDate) = 1996
+
+
+SELECT CompanyName, ContactName
+FROM Customers
+where Country in ('France','UK' ,'USA')
+
+
+SELECT ProductID, ProductName , UnitsInStock
+FROM Products
+where UnitsInStock < 30
+
+
+SELECT name
+FROM sys.databases
+where name Like('M%') or name Like('%T')
+
+
+select *
+from [Northwind].sys.tables
+where has_replication_filter =1 and is_replicated = 1
+OR is_merge_published <>1
+OR is_merge_published = 1
+OR temporal_type_desc = 'SYSTEM_VERSIONED_TEMPORAL_TABLE'
+
+--
+תשובה ג : 2 עמודות
+
+INתשובה ה : אופרטור  
