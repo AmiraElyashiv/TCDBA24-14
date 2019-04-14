@@ -17,8 +17,8 @@ CREATE OR ALTER PROCEDURE [dbo].[usp_registerAndValidation]
 				@lastName	 nvarchar (50),
 				@address	 nvarchar(50),
 				@country	 nvarchar(50),
-				@emailAddres nvarchar(50),
-				@gender	 nvarchar(50),
+				@emailAddres     nvarchar(50),
+				@gender	         nvarchar(50),
 				@birthDate	 datetime ,
 				@isLock		 int 
 AS
@@ -32,7 +32,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-	--- check if @userName is legal 
+    --- check if @userName is legal 
     IF (@userName IS NULL) 
 		BEGIN
 			PRINT 'The Username is empty. Please try again'
@@ -66,7 +66,7 @@ BEGIN
 			END	
 					
 	
-		DECLARE @Valid int		      
+	DECLARE @Valid int		      
         SET @Valid =
 		CASE WHEN
          	@password COLLATE Latin1_General_BIN   LIKE '%[a-z]%' AND
@@ -101,7 +101,7 @@ BEGIN
 		ELSE
 			IF @emailAddres NOT LIKE '%_@__%.__%' AND
 			   PATINDEX('%[^a-z,0-9,@,.,_]%', REPLACE(@emailAddres, '-', 'a')) = 0
-	          BEGIN
+	                  BEGIN
 				PRINT N'The Email is not a valid'
 				RETURN
 			  END  
