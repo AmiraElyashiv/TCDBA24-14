@@ -15,10 +15,10 @@ DROP DATABASE [Casino]
 CREATE DATABASE [Casino]
  CONTAINMENT = NONE
  ON  PRIMARY 
-( NAME = N'fgMaster', FILENAME = N'C:\CasinoProj\Data\Casino_mdf.mdf' , 
+( NAME = N'CasinoMaster', FILENAME = N'C:\CasinoProj\Data\Casino_mdf.mdf' , 
 	SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 7168KB )
  LOG ON 
-( NAME = N'Fg_log_Log', FILENAME = N'C:\CasinoProj\Log\Casino_log.ldf' , 
+( NAME = N'CasinoLog', FILENAME = N'C:\CasinoProj\Log\Casino_log.ldf' , 
 	SIZE = 5120KB , MAXSIZE = 2048GB , FILEGROWTH = 3072KB )
 GO
 
@@ -34,7 +34,7 @@ PRINT ' CREATE DATABASE [Casino]'
 
 
 
-/********* schema *************************************/
+/********* SCHEMA *************************************/
 
 
 USE [Casino]
@@ -89,6 +89,37 @@ GO
 CREATE SCHEMA [Security] AUTHORIZATION [dbo]
 GO
 
+
+
+
+/********* USER ** ROLE  **TYPE ***************************/
+
+CREATE USER [SlotMachine] WITHOUT LOGIN WITH DEFAULT_SCHEMA=[dbo]
+GO
+CREATE USER [BlackJack] WITHOUT LOGIN WITH DEFAULT_SCHEMA=[dbo]
+GO
+CREATE USER [AnyUser] WITHOUT LOGIN WITH DEFAULT_SCHEMA=[dbo]
+
+
+
+CREATE ROLE [mdw_writer]
+GO
+CREATE ROLE [mdw_reader]
+GO
+CREATE ROLE [mdw_admin]
+GO
+
+
+CREATE TYPE [Admin].[AggregationType] FROM [tinyint] NULL
+GO
+CREATE TYPE [Secutity].[IdType] FROM [tinyint] NULL
+GO
+
+CREATE TYPE [playerPasswordDt] FROM VARBINARY(128) NOT NULL
+GO
+CREATE TYPE [emailAddressDt] FROM [nvarchar](100) NOT NULL MASKED WITH (FUNCTION = 'email()')
+GO
+SELECT * FROM sys.Types WHERE is_user_defined = 1
 
 
 
